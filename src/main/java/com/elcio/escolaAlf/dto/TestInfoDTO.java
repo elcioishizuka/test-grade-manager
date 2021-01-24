@@ -1,4 +1,4 @@
-package com.elcio.escolaAlf.entity;
+package com.elcio.escolaAlf.dto;
 
 
 import com.elcio.escolaAlf.enums.Subject;
@@ -8,24 +8,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="testinfo")
-public class TestInfo {
+public class TestInfoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Subject subject;
 
-    @Column(nullable = false)
+    @NotEmpty
     private String testNumber;
 
 }
