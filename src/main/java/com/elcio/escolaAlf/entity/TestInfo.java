@@ -19,7 +19,7 @@ public class TestInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long testInfoId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

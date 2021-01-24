@@ -20,7 +20,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class AnswerDTO {
 
-    private Long id;
+    private Long answerId;
 
     @NotEmpty
     private String question;

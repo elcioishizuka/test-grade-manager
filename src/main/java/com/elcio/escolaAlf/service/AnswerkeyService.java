@@ -1,21 +1,13 @@
 package com.elcio.escolaAlf.service;
 
 import com.elcio.escolaAlf.dto.AnswerkeyDTO;
-import com.elcio.escolaAlf.entity.Answer;
 import com.elcio.escolaAlf.entity.Answerkey;
-import com.elcio.escolaAlf.entity.TestInfo;
+import com.elcio.escolaAlf.enums.Subject;
 import com.elcio.escolaAlf.mapper.AnswerkeyMapper;
 import com.elcio.escolaAlf.repository.AnswerkeyRepository;
-import com.sun.xml.bind.v2.util.CollisionCheckStack;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +17,6 @@ public class AnswerkeyService {
     private AnswerkeyRepository answerkeyRepository;
 
     private final AnswerkeyMapper answerkeyMapper = AnswerkeyMapper.INSTANCE;
-
 
     @Autowired
     public AnswerkeyService(AnswerkeyRepository answerkeyRepository){
@@ -39,5 +30,32 @@ public class AnswerkeyService {
         return savedAnswerkeyDTO;
     }
 
+    public List<AnswerkeyDTO> listAllAnswerkeys() {
+        List<AnswerkeyDTO> allAnswerkeys = answerkeyRepository.findAll()
+                .stream()
+                .map(answerkeyMapper::toDTO)
+                .collect(Collectors.toList());
+        return allAnswerkeys;
+    }
 
+    public void deleteAnswerkeyById(Long id) {
+        answerkeyRepository.deleteById(id);
+    }
+
+    public List<AnswerkeyDTO> listAnswerkeysBySubject(String subject){
+        List<AnswerkeyDTO> foundAnswerkeys = answerkeyRepository.findByTestInfo_Subject(Subject.valueOf(subject.toUpperCase()))
+                .stream()
+                .map(answerkeyMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundAnswerkeys;
+    }
+
+    public List<AnswerkeyDTO> listAnswerkeysBySubjectAndTestNumber(String subject, String testNumber) {
+        List<AnswerkeyDTO> foundAnswerkeys = answerkeyRepository.findByTestInfo_SubjectAndTestInfo_TestNumber(Subject.valueOf(subject.toUpperCase()), testNumber)
+                .stream()
+                .map(answerkeyMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundAnswerkeys;
+
+    }
 }

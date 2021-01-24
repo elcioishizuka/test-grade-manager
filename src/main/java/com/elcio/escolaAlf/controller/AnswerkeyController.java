@@ -2,7 +2,6 @@ package com.elcio.escolaAlf.controller;
 
 
 import com.elcio.escolaAlf.dto.AnswerkeyDTO;
-import com.elcio.escolaAlf.repository.AnswerkeyRepository;
 import com.elcio.escolaAlf.service.AnswerkeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/v1/answerkeys")
@@ -29,10 +29,27 @@ public class AnswerkeyController {
         return savedAnswerkeyDTO;
     }
 
-//    @GetMapping
-//    public List<Answerkey> listAll() {
-//        List<Answerkey> allAnswerkey = answerkeyRepository.findAll();
-//        return allAnswerkey;
-//    }
+    @GetMapping
+    public List<AnswerkeyDTO> listAllAnswerkeys() {
+        List<AnswerkeyDTO> allAnswerkeys = answerkeyService.listAllAnswerkeys();
+        return allAnswerkeys;
+    }
+
+    @GetMapping("/{subject}")
+    public List<AnswerkeyDTO> listAnswerkeysBySubject(@PathVariable String subject) {
+        List<AnswerkeyDTO> foundAnswerkeys = answerkeyService.listAnswerkeysBySubject(subject);
+        return foundAnswerkeys;
+    }
+
+    @GetMapping("/{subject}/{testNumber}")
+    public List<AnswerkeyDTO> listAnswerkeysBySubjectAndTestNumber(@PathVariable("subject") String subject, @PathVariable("testNumber") String testNumber) {
+        List<AnswerkeyDTO> foundAnswerkeys = answerkeyService.listAnswerkeysBySubjectAndTestNumber(subject, testNumber);
+        return foundAnswerkeys;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAnswerkeyById(@PathVariable Long id){
+        answerkeyService.deleteAnswerkeyById(id);
+    }
 
 }

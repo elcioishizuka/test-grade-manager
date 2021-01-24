@@ -18,7 +18,7 @@ public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long answerId;
 
     @Column
     private String question;

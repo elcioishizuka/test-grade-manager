@@ -20,7 +20,7 @@ public class Answerkey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long answerkeyId;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private TestInfo testInfo;

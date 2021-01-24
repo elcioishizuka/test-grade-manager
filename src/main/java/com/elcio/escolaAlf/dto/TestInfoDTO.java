@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class TestInfoDTO {
 
-    private Long id;
+    private Long testInfoId;
 
     @Enumerated(EnumType.STRING)
     private Subject subject;

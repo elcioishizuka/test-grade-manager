@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AnswerkeyDTO {
 
-    private Long id;
+    private Long answerkeyId;
 
     @Valid
     private TestInfoDTO testInfo;
