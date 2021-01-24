@@ -6,26 +6,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name="grade")
-public class Grade {
+@NoArgsConstructor
+@Table(name = "test_answer")
+public class TestAnswers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gradeId;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private TestInfo testInfo;
+    private Long testAnswersId;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Student student;
 
-    @Column(nullable = false)
-    private Double grade;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private TestInfo testInfo;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Answer> answers;
+
 
 }
