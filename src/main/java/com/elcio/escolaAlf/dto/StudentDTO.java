@@ -19,6 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class StudentDTO {
 
+    @NotEmpty
     private Long studentId;
 
     @NotEmpty
@@ -27,8 +28,8 @@ public class StudentDTO {
     @NotEmpty
     private String lastName;
 
-    @NotEmpty
-    @UniqueElements
-    private String cpf;
+//    @NotEmpty
+////    @UniqueElements
+//    private String cpf;
 
 }

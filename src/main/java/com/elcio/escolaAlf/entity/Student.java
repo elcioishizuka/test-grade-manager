@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
 
     @Column(nullable = false)
@@ -25,7 +24,7 @@ public class Student {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String cpf;
+//    @Column(nullable = false, unique = true)
+//    private String cpf;
 
 }

@@ -28,7 +28,7 @@ public class AnswerDTO {
     @NotEmpty
     private String answer;
 
-    @Positive
+    @Positive(message = "Weight must be Integer type and greater than zero!")
     private Integer weight;
 
 

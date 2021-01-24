@@ -27,7 +27,6 @@ public class TestAnswersService {
         TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
         TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
         TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
-
         return savedTestAnswersDTO;
     }
 

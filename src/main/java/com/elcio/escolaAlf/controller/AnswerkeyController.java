@@ -2,6 +2,7 @@ package com.elcio.escolaAlf.controller;
 
 
 import com.elcio.escolaAlf.dto.AnswerkeyDTO;
+import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
 import com.elcio.escolaAlf.service.AnswerkeyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class AnswerkeyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AnswerkeyDTO createAnswerkey(@RequestBody @Valid AnswerkeyDTO answerkeyDTO){
+    public AnswerkeyDTO createAnswerkey(@RequestBody @Valid AnswerkeyDTO answerkeyDTO) throws AnswerkeyAlreadyRegistered {
         AnswerkeyDTO savedAnswerkeyDTO = answerkeyService.createAnswerkey(answerkeyDTO);
         return savedAnswerkeyDTO;
     }

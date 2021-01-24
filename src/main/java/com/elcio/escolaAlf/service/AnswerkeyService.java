@@ -3,12 +3,14 @@ package com.elcio.escolaAlf.service;
 import com.elcio.escolaAlf.dto.AnswerkeyDTO;
 import com.elcio.escolaAlf.entity.Answerkey;
 import com.elcio.escolaAlf.enums.Subject;
+import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
 import com.elcio.escolaAlf.mapper.AnswerkeyMapper;
 import com.elcio.escolaAlf.repository.AnswerkeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +25,8 @@ public class AnswerkeyService {
         this.answerkeyRepository = answerkeyRepository;
     }
 
-    public AnswerkeyDTO createAnswerkey(AnswerkeyDTO answerkeyDTO){
+    public AnswerkeyDTO createAnswerkey(AnswerkeyDTO answerkeyDTO) throws AnswerkeyAlreadyRegistered {
+        verifyIfAlreadyRegistered(answerkeyDTO.getTestInfo().getSubject().toString(), answerkeyDTO.getTestInfo().getTestNumber());
         Answerkey answerkeyToSave = answerkeyMapper.toModel(answerkeyDTO);
         Answerkey savedAnswerkey= answerkeyRepository.save(answerkeyToSave);
         AnswerkeyDTO savedAnswerkeyDTO = answerkeyMapper.toDTO(savedAnswerkey);
@@ -56,6 +59,15 @@ public class AnswerkeyService {
                 .map(answerkeyMapper::toDTO)
                 .collect(Collectors.toList());
         return foundAnswerkeys;
+    }
+
+    private void verifyIfAlreadyRegistered(String subject, String testNumber) throws AnswerkeyAlreadyRegistered{
+        List<Answerkey> SavedAnswerkey = answerkeyRepository.findByTestInfo_SubjectAndTestInfo_TestNumber(Subject.valueOf(subject), testNumber);
+        if(SavedAnswerkey.size() >= 1){
+            throw new AnswerkeyAlreadyRegistered(subject, testNumber);
+        }
 
     }
+
+
 }
