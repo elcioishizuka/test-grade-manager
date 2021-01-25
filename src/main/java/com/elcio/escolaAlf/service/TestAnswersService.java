@@ -1,8 +1,12 @@
 package com.elcio.escolaAlf.service;
 
 import com.elcio.escolaAlf.dto.TestAnswersDTO;
+import com.elcio.escolaAlf.entity.Answerkey;
 import com.elcio.escolaAlf.entity.TestAnswers;
 import com.elcio.escolaAlf.enums.Subject;
+import com.elcio.escolaAlf.exception.AnswerAlreadyRegisteredToThisStudent;
+import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
+import com.elcio.escolaAlf.exception.StudentIdDoesNotMatch;
 import com.elcio.escolaAlf.mapper.TestAnswersMapper;
 import com.elcio.escolaAlf.repository.TestAnswersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +61,41 @@ public class TestAnswersService {
 
     }
 
-    public void deleteTestAnswersById(Long id) {
-        testAnswersRepository.deleteById(id);
+    public void deleteTestAnswersById(String id) {
+        testAnswersRepository.deleteByStudent_StudentId(id);
     }
+
+    public TestAnswersDTO registerAnswers(String studentId, TestAnswersDTO testAnswersDTO) throws AnswerAlreadyRegisteredToThisStudent, StudentIdDoesNotMatch {
+        verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
+        verifyIfAlreadyRegistered(studentId,
+                testAnswersDTO.getTestInfo().getSubject().toString(),
+                testAnswersDTO.getTestInfo().getTestNumber());
+        TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
+//        TestAnswers testAnswersToSave = testAnswersRepository.findByStudent_StudentId(testAnswersDTO.getStudent().getStudentId());
+//        testAnswersToSave.setTestInfo(testAnswersDTO.getTestInfo());
+//        testAnswersToSave.setAnswers(testAnswersDTO.getAnswers());
+        TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
+        TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
+        return savedTestAnswersDTO;
+
+    }
+
+    private void verifyIfAlreadyRegistered(String studentId, String subject, String testNumber) throws AnswerAlreadyRegisteredToThisStudent {
+
+        List<TestAnswers> SavedTestAnswers = testAnswersRepository
+                .findByStudent_StudentIdAndTestInfo_SubjectAndTestInfo_TestNumber(studentId, Subject.valueOf(subject), testNumber);
+        if(SavedTestAnswers.size() >= 1){
+            throw new AnswerAlreadyRegisteredToThisStudent(studentId, subject, testNumber);
+        }
+
+    }
+
+    private void verifyIfStudentIdIsCorrect(String studentIdLink, String studentIdRequest) throws StudentIdDoesNotMatch {
+
+        if(!studentIdLink.equals(studentIdRequest)){
+            throw new StudentIdDoesNotMatch(studentIdLink, studentIdRequest);
+        }
+
+    }
+
 }

@@ -16,7 +16,11 @@ import javax.persistence.*;
 public class Student {
 
     @Id
-    private Long studentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
+    @Column(nullable = false)
+    private String studentId;
 
     @Column(nullable = false)
     private String name;
