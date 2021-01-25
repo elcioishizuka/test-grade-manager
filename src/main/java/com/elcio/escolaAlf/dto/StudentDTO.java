@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class StudentDTO {
 
-    private Long Id;
+    private Long id;
 
     @NotEmpty
     private String studentId;
