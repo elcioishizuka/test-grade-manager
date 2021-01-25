@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,7 +26,11 @@ public class Grade {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Student student;
 
-    @Column(nullable = false)
-    private Double grade;
+    @Column
+    private List<Double> grades;
+
+    @Column
+    private Double finalGrade;
+
 
 }

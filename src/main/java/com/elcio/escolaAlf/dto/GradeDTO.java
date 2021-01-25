@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,6 +26,10 @@ public class GradeDTO {
     @Valid
     private Student student;
 
-    @NotEmpty
-    private Double grade;
+    private List<Double> grades;
+
+    private Double finalGrade;
+
+
+
 }

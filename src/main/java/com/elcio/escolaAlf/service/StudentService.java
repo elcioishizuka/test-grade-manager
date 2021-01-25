@@ -38,8 +38,8 @@ public class StudentService {
     }
 
     private void verifyIfAlreadyRegistered(String studentId) throws StudentAlreadyCreated {
-        Optional<Student> optionalStudent = studentRepository.findByStudentId(studentId);
-        if(optionalStudent.isPresent()){
+        List<Student> students = studentRepository.findByStudentId(studentId);
+        if(students.size() >= 1){
             throw new StudentAlreadyCreated(studentId);
         }
 

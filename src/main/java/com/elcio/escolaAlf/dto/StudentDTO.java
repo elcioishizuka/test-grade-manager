@@ -1,5 +1,6 @@
 package com.elcio.escolaAlf.dto;
 
+import com.elcio.escolaAlf.entity.TestAnswers;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,6 +32,8 @@ public class StudentDTO {
 
     @NotEmpty
     private String lastName;
+
+//    private List<TestAnswers> testAnswersList = new ArrayList<>();
 
 //    @NotEmpty
 ////    @UniqueElements

@@ -27,7 +27,12 @@ public class TestAnswersService {
         this.testAnswersRepository = testAnswersRepository;
     }
 
-    public TestAnswersDTO createAnswers(TestAnswersDTO testAnswersDTO) {
+    public TestAnswersDTO createAnswers(TestAnswersDTO testAnswersDTO) throws StudentIdDoesNotMatch, AnswerAlreadyRegisteredToThisStudent {
+        String studentId = testAnswersDTO.getStudent().getStudentId().toString();
+        verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
+        verifyIfAlreadyRegistered(studentId,
+                testAnswersDTO.getTestInfo().getSubject().toString(),
+                testAnswersDTO.getTestInfo().getTestNumber());
         TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
         TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
         TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
@@ -53,7 +58,8 @@ public class TestAnswersService {
     }
 
     public List<TestAnswersDTO> listTestAnswersBySubjectAndTestNumber(String subject, String testNumber) {
-        List<TestAnswersDTO> foundTestAnswers = testAnswersRepository.findByTestInfo_SubjectAndTestInfo_TestNumber(Subject.valueOf(subject.toUpperCase()), testNumber)
+        List<TestAnswersDTO> foundTestAnswers = testAnswersRepository
+                .findByTestInfo_SubjectAndTestInfo_TestNumber(Subject.valueOf(subject.toUpperCase()), testNumber)
                 .stream()
                 .map(testAnswersMapper::toDTO)
                 .collect(Collectors.toList());
@@ -61,24 +67,44 @@ public class TestAnswersService {
 
     }
 
+    public List<TestAnswersDTO> listTestAnswersByStudentIdAndSubject(String studentId, String subject) {
+        List<TestAnswersDTO> foundTestAnswers = testAnswersRepository
+                .findByStudent_StudentIdAndTestInfo_Subject(studentId, Subject.valueOf(subject.toUpperCase()))
+                .stream()
+                .map(testAnswersMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundTestAnswers;
+    }
+
+
+    public List<TestAnswersDTO> listTestAnswersByStudentIdAndSubjectAndTestNumber(String studentId, String subject, String testNumber) {
+        List<TestAnswersDTO> foundTestAnswers = testAnswersRepository
+                .findByStudent_StudentIdAndTestInfo_SubjectAndTestInfo_TestNumber(studentId, Subject.valueOf(subject.toUpperCase()), testNumber)
+                .stream()
+                .map(testAnswersMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundTestAnswers;
+    }
+
+
     public void deleteTestAnswersById(String id) {
         testAnswersRepository.deleteByStudent_StudentId(id);
     }
 
-    public TestAnswersDTO registerAnswers(String studentId, TestAnswersDTO testAnswersDTO) throws AnswerAlreadyRegisteredToThisStudent, StudentIdDoesNotMatch {
-        verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
-        verifyIfAlreadyRegistered(studentId,
-                testAnswersDTO.getTestInfo().getSubject().toString(),
-                testAnswersDTO.getTestInfo().getTestNumber());
-        TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
-//        TestAnswers testAnswersToSave = testAnswersRepository.findByStudent_StudentId(testAnswersDTO.getStudent().getStudentId());
-//        testAnswersToSave.setTestInfo(testAnswersDTO.getTestInfo());
-//        testAnswersToSave.setAnswers(testAnswersDTO.getAnswers());
-        TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
-        TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
-        return savedTestAnswersDTO;
-
-    }
+//    public TestAnswersDTO registerAnswers(String studentId, TestAnswersDTO testAnswersDTO) throws AnswerAlreadyRegisteredToThisStudent, StudentIdDoesNotMatch {
+//        verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
+//        verifyIfAlreadyRegistered(studentId,
+//                testAnswersDTO.getTestInfo().getSubject().toString(),
+//                testAnswersDTO.getTestInfo().getTestNumber());
+//        TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
+////        TestAnswers testAnswersToSave = testAnswersRepository.findByStudent_StudentId(testAnswersDTO.getStudent().getStudentId());
+////        testAnswersToSave.setTestInfo(testAnswersDTO.getTestInfo());
+////        testAnswersToSave.setAnswers(testAnswersDTO.getAnswers());
+//        TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
+//        TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
+//        return savedTestAnswersDTO;
+//
+//    }
 
     private void verifyIfAlreadyRegistered(String studentId, String subject, String testNumber) throws AnswerAlreadyRegisteredToThisStudent {
 
@@ -97,5 +123,7 @@ public class TestAnswersService {
         }
 
     }
+
+
 
 }
