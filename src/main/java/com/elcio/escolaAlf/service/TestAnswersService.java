@@ -7,6 +7,7 @@ import com.elcio.escolaAlf.enums.Subject;
 import com.elcio.escolaAlf.exception.AnswerAlreadyRegisteredToThisStudent;
 import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
 import com.elcio.escolaAlf.exception.StudentIdDoesNotMatch;
+import com.elcio.escolaAlf.exception.StudentQuantityExceeded;
 import com.elcio.escolaAlf.mapper.TestAnswersMapper;
 import com.elcio.escolaAlf.repository.TestAnswersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,26 @@ public class TestAnswersService {
 
     private TestAnswersRepository testAnswersRepository;
 
+    private StudentService studentService;
+
     private final TestAnswersMapper testAnswersMapper = TestAnswersMapper.INSTANCE;
 
     @Autowired
-    public TestAnswersService(TestAnswersRepository testAnswersRepository){
+    public TestAnswersService(TestAnswersRepository testAnswersRepository, StudentService studentService){
         this.testAnswersRepository = testAnswersRepository;
+        this.studentService = studentService;
     }
 
-    public TestAnswersDTO createAnswers(TestAnswersDTO testAnswersDTO) throws StudentIdDoesNotMatch, AnswerAlreadyRegisteredToThisStudent {
+    public TestAnswersDTO createAnswers(TestAnswersDTO testAnswersDTO) throws StudentIdDoesNotMatch,
+            AnswerAlreadyRegisteredToThisStudent, StudentQuantityExceeded {
+
         String studentId = testAnswersDTO.getStudent().getStudentId().toString();
         verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
         verifyIfAlreadyRegistered(studentId,
                 testAnswersDTO.getTestInfo().getSubject().toString(),
                 testAnswersDTO.getTestInfo().getTestNumber());
+        studentService.verifyLimitOfStudentQuantity();
+
         TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
         TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
         TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);

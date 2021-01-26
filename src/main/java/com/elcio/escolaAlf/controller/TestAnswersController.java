@@ -3,6 +3,7 @@ package com.elcio.escolaAlf.controller;
 import com.elcio.escolaAlf.dto.TestAnswersDTO;
 import com.elcio.escolaAlf.exception.AnswerAlreadyRegisteredToThisStudent;
 import com.elcio.escolaAlf.exception.StudentIdDoesNotMatch;
+import com.elcio.escolaAlf.exception.StudentQuantityExceeded;
 import com.elcio.escolaAlf.service.TestAnswersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,12 @@ public class TestAnswersController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TestAnswersDTO createTestAnswers(@RequestBody @Valid TestAnswersDTO testAnswersDTO) throws StudentIdDoesNotMatch, AnswerAlreadyRegisteredToThisStudent {
+    public TestAnswersDTO createTestAnswers(@RequestBody @Valid TestAnswersDTO testAnswersDTO) throws
+            StudentIdDoesNotMatch, AnswerAlreadyRegisteredToThisStudent, StudentQuantityExceeded {
+
         TestAnswersDTO savedTestAnswersDTO = testAnswersService.createAnswers(testAnswersDTO);
         return savedTestAnswersDTO;
+
     }
 
 //    @PostMapping("/{studentId}/registeranswers")

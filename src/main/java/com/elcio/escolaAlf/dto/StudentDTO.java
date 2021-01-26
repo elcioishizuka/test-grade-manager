@@ -33,6 +33,12 @@ public class StudentDTO {
     @NotEmpty
     private String lastName;
 
+    public StudentDTO (String studentId, String name,String lastName){
+        this.studentId = studentId;
+        this.name = name;
+        this.lastName = lastName;
+    }
+
 //    private List<TestAnswers> testAnswersList = new ArrayList<>();
 
 //    @NotEmpty

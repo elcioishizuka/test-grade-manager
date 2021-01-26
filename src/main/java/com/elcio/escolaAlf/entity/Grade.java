@@ -27,10 +27,8 @@ public class Grade {
     private Student student;
 
     @Column
-    private List<Double> grades;
+    private Double grade;
 
-    @Column
-    private Double finalGrade;
 
 
 }

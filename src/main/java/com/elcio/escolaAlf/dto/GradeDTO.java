@@ -26,10 +26,7 @@ public class GradeDTO {
     @Valid
     private Student student;
 
-    private List<Double> grades;
-
-    private Double finalGrade;
-
+    private Double grade;
 
 
 }

@@ -1,11 +1,11 @@
 package com.elcio.escolaAlf.repository;
 
-import com.elcio.escolaAlf.dto.GradeDTO;
+import com.elcio.escolaAlf.entity.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GradeRepository extends JpaRepository<GradeDTO, Long> {
+public interface GradeRepository extends JpaRepository<Grade, Long> {
 
 
 }
