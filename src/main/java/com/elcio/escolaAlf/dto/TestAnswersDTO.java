@@ -21,14 +21,14 @@ public class TestAnswersDTO {
     private Long testAnswersId;
 
     @Valid
-    private Student student;
+    private StudentDTO student;
 
     @Valid
-    private TestInfo testInfo;
+    private TestInfoDTO testInfo;
 
     @Valid
     @NotEmpty
-    private List<Answer> answers;
+    private List<AnswerDTO> answers;
 
 
 }

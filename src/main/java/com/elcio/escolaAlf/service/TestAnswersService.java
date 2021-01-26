@@ -34,7 +34,7 @@ public class TestAnswersService {
     public TestAnswersDTO createAnswers(TestAnswersDTO testAnswersDTO) throws StudentIdDoesNotMatch,
             AnswerAlreadyRegisteredToThisStudent, StudentQuantityExceeded {
 
-        String studentId = testAnswersDTO.getStudent().getStudentId().toString();
+        String studentId = testAnswersDTO.getStudent().getStudentId();
         verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
         verifyIfAlreadyRegistered(studentId,
                 testAnswersDTO.getTestInfo().getSubject().toString(),

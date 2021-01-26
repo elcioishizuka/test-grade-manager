@@ -25,8 +25,16 @@ public class GradeController {
 
     @GetMapping
     public List<GradeDTO> listAllGrades() {
-        List<GradeDTO> allGrades = gradeService.listAllGrades();
+        List<GradeDTO> allGrades = gradeService.listStudentGrades();
         return allGrades;
     }
+
+//    @GetMapping("/list")
+//    public List<GradeDTO> list() {
+//        List<GradeDTO> allGrades = gradeService.listStudentGrades();
+//        return allGrades;
+//    }
+
+
 
 }

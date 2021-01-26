@@ -1,5 +1,6 @@
 package com.elcio.escolaAlf.entity;
 
+import com.elcio.escolaAlf.enums.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,27 @@ public class Grade {
 
     @Column
     private Double grade;
+
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long gradeId;
+//
+//    @Column
+//    private String studentId;
+//
+//    @Column
+//    private String name;
+//
+//    @Column
+//    private String lastName;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private Subject subject;
+//
+//    @Column
+//    private String testNumber;
 
 
 
