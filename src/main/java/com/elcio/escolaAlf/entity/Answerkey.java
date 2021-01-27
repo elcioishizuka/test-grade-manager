@@ -1,6 +1,5 @@
 package com.elcio.escolaAlf.entity;
 
-import com.elcio.escolaAlf.enums.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
 
 @Entity
 @Data
@@ -27,6 +25,5 @@ public class Answerkey {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Answer> answers;
-
 
 }

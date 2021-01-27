@@ -105,9 +105,9 @@ public class FinalGradeService {
         finalGradeRepository.deleteAll();
     }
 
-    public List<FinalGradeDTO> listStudentsByStatus(String status) {
+    public List<FinalGradeDTO> listFinalGradesByStudentId(String studentId) {
         listAllFinalGrades();
-        List<FinalGradeDTO> foundFinalGrades = finalGradeRepository.findByStatus(Status.valueOf(status.toUpperCase()))
+        List<FinalGradeDTO> foundFinalGrades = finalGradeRepository.findByStudent_StudentId(studentId)
                 .stream()
                 .map(finalGradeMapper::toDTO)
                 .collect(Collectors.toList());

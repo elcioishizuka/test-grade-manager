@@ -1,11 +1,9 @@
 package com.elcio.escolaAlf.service;
 
 import com.elcio.escolaAlf.dto.TestAnswersDTO;
-import com.elcio.escolaAlf.entity.Answerkey;
 import com.elcio.escolaAlf.entity.TestAnswers;
 import com.elcio.escolaAlf.enums.Subject;
 import com.elcio.escolaAlf.exception.AnswerAlreadyRegisteredToThisStudent;
-import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
 import com.elcio.escolaAlf.exception.StudentIdDoesNotMatch;
 import com.elcio.escolaAlf.exception.StudentQuantityExceeded;
 import com.elcio.escolaAlf.mapper.TestAnswersMapper;
@@ -84,7 +82,6 @@ public class TestAnswersService {
         return foundTestAnswers;
     }
 
-
     public List<TestAnswersDTO> listTestAnswersByStudentIdAndSubjectAndTestNumber(String studentId, String subject, String testNumber) {
         List<TestAnswersDTO> foundTestAnswers = testAnswersRepository
                 .findByStudent_StudentIdAndTestInfo_SubjectAndTestInfo_TestNumber(studentId, Subject.valueOf(subject.toUpperCase()), testNumber)
@@ -94,25 +91,9 @@ public class TestAnswersService {
         return foundTestAnswers;
     }
 
-
     public void deleteTestAnswersById(String id) {
         testAnswersRepository.deleteByStudent_StudentId(id);
     }
-
-//    public TestAnswersDTO registerAnswers(String studentId, TestAnswersDTO testAnswersDTO) throws AnswerAlreadyRegisteredToThisStudent, StudentIdDoesNotMatch {
-//        verifyIfStudentIdIsCorrect(studentId, testAnswersDTO.getStudent().getStudentId());
-//        verifyIfAlreadyRegistered(studentId,
-//                testAnswersDTO.getTestInfo().getSubject().toString(),
-//                testAnswersDTO.getTestInfo().getTestNumber());
-//        TestAnswers testAnswersToSave = testAnswersMapper.toModel(testAnswersDTO);
-////        TestAnswers testAnswersToSave = testAnswersRepository.findByStudent_StudentId(testAnswersDTO.getStudent().getStudentId());
-////        testAnswersToSave.setTestInfo(testAnswersDTO.getTestInfo());
-////        testAnswersToSave.setAnswers(testAnswersDTO.getAnswers());
-//        TestAnswers savedTestAnswers = testAnswersRepository.save(testAnswersToSave);
-//        TestAnswersDTO savedTestAnswersDTO = testAnswersMapper.toDTO(savedTestAnswers);
-//        return savedTestAnswersDTO;
-//
-//    }
 
     private void verifyIfAlreadyRegistered(String studentId, String subject, String testNumber) throws AnswerAlreadyRegisteredToThisStudent {
 
@@ -131,7 +112,6 @@ public class TestAnswersService {
         }
 
     }
-
 
 
 }

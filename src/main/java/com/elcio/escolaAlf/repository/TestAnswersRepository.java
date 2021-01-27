@@ -5,9 +5,7 @@ import com.elcio.escolaAlf.enums.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface TestAnswersRepository extends JpaRepository<TestAnswers, String> {
@@ -23,6 +21,5 @@ public interface TestAnswersRepository extends JpaRepository<TestAnswers, String
     TestAnswers findByStudent_StudentId(String studentID);
 
     void deleteByStudent_StudentId(String studentId);
-
 
 }

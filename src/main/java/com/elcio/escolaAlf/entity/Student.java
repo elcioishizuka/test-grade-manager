@@ -6,9 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Data
@@ -30,12 +27,5 @@ public class Student {
 
     @Column(nullable = false)
     private String lastName;
-
-//    @OneToMany(mappedBy = "student")
-//    private List<TestAnswers> testAnswersList = new ArrayList<>();
-
-
-//    @Column(nullable = false, unique = true)
-//    private String cpf;
 
 }

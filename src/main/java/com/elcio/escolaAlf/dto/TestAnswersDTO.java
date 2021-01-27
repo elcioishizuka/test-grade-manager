@@ -1,8 +1,5 @@
 package com.elcio.escolaAlf.dto;
 
-import com.elcio.escolaAlf.entity.Answer;
-import com.elcio.escolaAlf.entity.Student;
-import com.elcio.escolaAlf.entity.TestInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +26,5 @@ public class TestAnswersDTO {
     @Valid
     @NotEmpty
     private List<AnswerDTO> answers;
-
 
 }

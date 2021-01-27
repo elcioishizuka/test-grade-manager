@@ -1,6 +1,5 @@
 package com.elcio.escolaAlf.entity;
 
-
 import com.elcio.escolaAlf.enums.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

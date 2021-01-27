@@ -30,17 +30,7 @@ public class TestAnswersController {
 
         TestAnswersDTO savedTestAnswersDTO = testAnswersService.createAnswers(testAnswersDTO);
         return savedTestAnswersDTO;
-
     }
-
-//    @PostMapping("/{studentId}/registeranswers")
-//    public TestAnswersDTO registerAnswers (@PathVariable String studentId,
-//                                           @RequestBody @Valid TestAnswersDTO testAnswersDTO)
-//            throws AnswerAlreadyRegisteredToThisStudent, StudentIdDoesNotMatch {
-//        TestAnswersDTO savedTestAnswersDTO = testAnswersService.registerAnswers(studentId, testAnswersDTO);
-//        return savedTestAnswersDTO;
-//    }
-
 
     @GetMapping
     public List<TestAnswersDTO> listAllTestAnswers() {
@@ -53,12 +43,6 @@ public class TestAnswersController {
         List<TestAnswersDTO> foundTestAnswers = testAnswersService.listTestAnswersBySubject(subject);
         return foundTestAnswers;
     }
-
-//    @GetMapping("/{subject}/{testNumber}")
-//    public List<TestAnswersDTO> listTestAnswersBySubjectAndTestNumber(@PathVariable("subject") String subject, @PathVariable("testNumber") String testNumber) {
-//        List<TestAnswersDTO> foundTestAnswers = testAnswersService.listTestAnswersBySubjectAndTestNumber(subject, testNumber);
-//        return foundTestAnswers;
-//    }
 
     @GetMapping("/{studentId}/{subject}")
     public List<TestAnswersDTO> listTestAnswersByStudentIdAndSubject(@PathVariable("studentId") String studentId,
@@ -77,12 +61,10 @@ public class TestAnswersController {
         return foundTestAnswers;
     }
 
-
     @DeleteMapping("/{studentId}")
     public void deleteTestAnswersById(@PathVariable String studentId){
         testAnswersService.deleteTestAnswersById(studentId);
     }
-
 
 
 }

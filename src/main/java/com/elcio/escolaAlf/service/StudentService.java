@@ -1,6 +1,5 @@
 package com.elcio.escolaAlf.service;
 
-import com.elcio.escolaAlf.dto.AnswerkeyDTO;
 import com.elcio.escolaAlf.dto.StudentDTO;
 import com.elcio.escolaAlf.entity.Student;
 import com.elcio.escolaAlf.exception.StudentAlreadyCreated;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service

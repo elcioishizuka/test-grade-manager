@@ -22,14 +22,14 @@ public class FinalGradeController {
     }
 
     @GetMapping
-    public List<FinalGradeDTO> listStudentsStatus(){
+    public List<FinalGradeDTO> listAllFinalGrades(){
         List<FinalGradeDTO> listStudentsStatus = finalGradeService.listAllFinalGrades();
         return listStudentsStatus;
     }
 
-    @GetMapping("/{status}")
-    public List<FinalGradeDTO> listApprovedStudents(@PathVariable String status){
-        List<FinalGradeDTO> listOfApprovedStudents = finalGradeService.listStudentsByStatus(status);
+    @GetMapping("/{studentId}")
+    public List<FinalGradeDTO> listFinalGradesByStudentId(@PathVariable String studentId){
+        List<FinalGradeDTO> listOfApprovedStudents = finalGradeService.listFinalGradesByStudentId(studentId);
         return  listOfApprovedStudents;
     }
 
@@ -38,8 +38,5 @@ public class FinalGradeController {
         List<FinalGradeDTO> listOfApprovedStudents = finalGradeService.listStudentsBySubjectAndStatus(subject, status);
         return  listOfApprovedStudents;
     }
-
-
-
 
 }
