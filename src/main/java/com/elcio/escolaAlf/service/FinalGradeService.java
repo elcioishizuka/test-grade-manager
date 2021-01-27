@@ -41,7 +41,7 @@ public class FinalGradeService {
 
     }
 
-    public List<FinalGradeDTO> listApprovedStudents(){
+    public List<FinalGradeDTO> listAllFinalGrades(){
         List<StudentDTO> students = new ArrayList<>(new HashSet<>(studentService.listAllStudents()));
         List<GradeDTO> gradeDTOList = gradeService.listStudentGrades();
 
@@ -56,7 +56,6 @@ public class FinalGradeService {
 
         // Deleting content of table "grade" before calculating and saving grades
         deleteFinalGradeTable();
-
 
         for (int i = 0; i < studentIds.size(); i++) {
 
@@ -106,54 +105,23 @@ public class FinalGradeService {
         finalGradeRepository.deleteAll();
     }
 
+    public List<FinalGradeDTO> listStudentsByStatus(String status) {
+        listAllFinalGrades();
+        List<FinalGradeDTO> foundFinalGrades = finalGradeRepository.findByStatus(Status.valueOf(status.toUpperCase()))
+                .stream()
+                .map(finalGradeMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundFinalGrades;
+    }
 
-//    public FinalGradeDTO listApprovedStudents() {
-//        Set<StudentDTO> students = studentService.listAllStudents();
-//        List<GradeDTO> gradeDTOList = gradeService.listStudentGrades();
-//
-//        List<String> studentIds = students.stream().map(StudentDTO::getStudentId).collect(Collectors.toList());
-//        List<String> names = students.stream().map(StudentDTO::getName).collect(Collectors.toList());
-//        List<String> lastNames = students.stream().map(StudentDTO::getLastName).collect(Collectors.toList());
-//
-//        List<Subject> gradeDTOListSubjects = gradeDTOList.stream().map(GradeDTO::getTestInfo).map(TestInfoDTO::getSubject).collect(Collectors.toList());
-//        List<String> gradeDTOListStudentIds = gradeDTOList.stream().map(GradeDTO::getStudent).map(StudentDTO::getStudentId).collect(Collectors.toList());
-//        List<String> testNumbers = gradeDTOList.stream().map(GradeDTO::getTestInfo).map(TestInfoDTO::getTestNumber).collect(Collectors.toList());
-//        List<Double> grades = gradeDTOList.stream().map(GradeDTO::getGrade).collect(Collectors.toList());
-//        List<String> allGradesStudentIds = gradeDTOList.stream().map(GradeDTO::getStudent).map(StudentDTO::getStudentId).collect(Collectors.toList());
-//
-//        for (int i = 0; i < studentIds.size(); i++) {
-//            for (int j = 0; j < gradeDTOListSubjects.size(); j++) {
-//
-//                for
-//
-//                if (studentIds.get(i).equals(gradeDTOListStudentIds.get(j)))
-//
-//
-//            }
-//
-//        }
-//
-//
-//
-//
-//        private Long finalGradeId;
-//
-//        @Enumerated(EnumType.STRING)
-//        private Subject subject;
-//
-//        @Valid
-//        private Student student;
-//
-//        private Double finalGrade;
-//
-//        @Enumerated(EnumType.STRING)
-//        private Status status;
-//
-//
-//
-//
-//
-//
-//    }
+    public List<FinalGradeDTO> listStudentsBySubjectAndStatus(String subject, String status) {
+        listAllFinalGrades();
+        List<FinalGradeDTO> foundFinalGrades = finalGradeRepository
+                .findBySubjectAndStatus(Subject.valueOf(subject.toUpperCase()), Status.valueOf(status.toUpperCase()))
+                .stream()
+                .map(finalGradeMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundFinalGrades;
+    }
 
 }
