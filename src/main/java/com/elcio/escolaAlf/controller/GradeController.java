@@ -1,15 +1,13 @@
 package com.elcio.escolaAlf.controller;
 
-import com.elcio.escolaAlf.dto.AnswerkeyDTO;
 import com.elcio.escolaAlf.dto.GradeDTO;
-import com.elcio.escolaAlf.exception.AnswerkeyAlreadyRegistered;
-import com.elcio.escolaAlf.service.AnswerkeyService;
 import com.elcio.escolaAlf.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,12 +27,10 @@ public class GradeController {
         return allGrades;
     }
 
-//    @GetMapping("/list")
-//    public List<GradeDTO> list() {
-//        List<GradeDTO> allGrades = gradeService.listStudentGrades();
-//        return allGrades;
-//    }
-
-
+    @GetMapping("/{subject}/{studentId}")
+    public List<GradeDTO> listBySubjectAndStudentId (@PathVariable("subject") String subject, @PathVariable("studentId") String studentId){
+        List<GradeDTO> gradesBySubjectAndStudentId = gradeService.listGradesBySubjectAndStudentId(subject, studentId);
+        return gradesBySubjectAndStudentId;
+    }
 
 }

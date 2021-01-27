@@ -36,7 +36,7 @@ public class GradeService {
     }
 
     public List<GradeDTO> listStudentGrades(){
-        // Get information from each class
+        // Get information from each DTO class
         Set<StudentDTO> allStudents = studentService.listAllStudents();
         List<TestAnswersDTO> allTestAnswers = testAnswersService.listAllTestAnswers();
         List<AnswerkeyDTO> allAnswerkeys = answerkeyService.listAllAnswerkeys();
@@ -60,51 +60,50 @@ public class GradeService {
         // Deleting content of table "grade" before calculating and saving grades
         deleteGradeTable();
 
-        for (int i = 0; i < studentIds.size(); i++) {
-            for (int j = 0; j < testAnswers.size(); j++) {
-                if(studentIds.get(i).equals(testStudentIds.get(j))){
-                    for (int k = 0; k < answerkeyAnswers.size(); k++) {
-                        if(testSubjects.get(j).equals(answerkeySubjects.get(k))
-                                && testTestNumbers.get(j).equals(answerkeyTestNumbers.get(k))){
 
-                            List<String> singleTestQuestions = testAnswers.get(j).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-                            List<String> singleTestAnswers = testAnswers.get(j).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
+        for (int i = 0; i < allStudents.size(); i++) {
+            for (int j = 0; j < allAnswerkeys.size(); j++) {
+                Double grade = 0.;
+                for (int k = 0; k < allTestAnswers.size(); k++) {
+                    if (answerkeySubjects.get(j).equals(testSubjects.get(k))
+                            && answerkeyTestNumbers.get(j).equals(testTestNumbers.get(k))
+                            && studentIds.get(i).equals(testStudentIds.get(k))){
 
-                            List<String> singleAnswerkeyQuestions = answerkeyAnswers.get(k).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-                            List<String> singleAnswerkeyAnswers = answerkeyAnswers.get(k).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
-                            List<Integer> singleAnswerkeyWeight = answerkeyAnswers.get(k).stream().map(AnswerDTO::getWeight).collect(Collectors.toList());
+                        List<String> singleTestAnswers = testAnswers.get(k).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
 
-                            Double partialGrade = 0.;
-                            Double grade = 0.;
-                            Double totalWeight = 0.;
-                            for (int m = 0; m < singleAnswerkeyQuestions.size(); m++) {
-                                if(singleAnswerkeyAnswers.get(m) == singleTestAnswers.get(m)){
-                                    partialGrade += singleAnswerkeyWeight.get(m);
-                                }
-                                totalWeight += singleAnswerkeyWeight.get(m);
+                        List<String> singleAnswerkeyAnswers = answerkeyAnswers.get(j).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
+                        List<Integer> singleAnswerkeyWeight = answerkeyAnswers.get(j).stream().map(AnswerDTO::getWeight).collect(Collectors.toList());
+
+                        Double partialGrade = 0.;
+                        Double totalWeight = 0.;
+                        for (int m = 0; m < singleAnswerkeyAnswers.size(); m++) {
+                            if(singleAnswerkeyAnswers.get(m) == singleTestAnswers.get(m)){
+                                partialGrade += singleAnswerkeyWeight.get(m);
                             }
-
-                            grade = partialGrade / totalWeight * 10 ;
-                            GradeDTO gradeDTO = GradeDTO.builder()
-                                    .testInfo(TestInfoDTO.builder()
-                                            .testNumber(testTestNumbers.get(k))
-                                            .subject(testSubjects.get(k))
-                                            .build())
-                                    .student(StudentDTO.builder()
-                                            .studentId(studentIds.get(i))
-                                            .name(names.get(i))
-                                            .lastName(lastNames.get(i))
-                                            .build())
-                                    .grade(grade)
-                                    .build();
-
-                            GradeDTO savedGradeDTO = saveGrade(gradeDTO);
-                            listOfGrades.add(savedGradeDTO);
+                            totalWeight += singleAnswerkeyWeight.get(m);
                         }
+                        grade = partialGrade / totalWeight * 10;
                     }
                 }
+                GradeDTO gradeDTO = GradeDTO.builder()
+                        .testInfo(TestInfoDTO.builder()
+                                .testNumber(answerkeyTestNumbers.get(j))
+                                .subject(answerkeySubjects.get(j))
+                                .build())
+                        .student(StudentDTO.builder()
+                                .studentId(studentIds.get(i))
+                                .name(names.get(i))
+                                .lastName(lastNames.get(i))
+                                .build())
+                        .grade(grade)
+                        .build();
+
+                GradeDTO savedGradeDTO = saveGrade(gradeDTO);
+                listOfGrades.add(savedGradeDTO);
             }
+
         }
+
         return listOfGrades;
     }
 
@@ -119,5 +118,13 @@ public class GradeService {
         gradeRepository.deleteAll();
     }
 
+    public List<GradeDTO> listGradesBySubjectAndStudentId(String subject, String studentId) {
+        listStudentGrades();
+        List<GradeDTO> foundGrades = gradeRepository.findByTestInfo_SubjectAndStudent_StudentId(Subject.valueOf(subject.toUpperCase()), studentId)
+                .stream()
+                .map(gradeMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundGrades;
 
+    }
 }

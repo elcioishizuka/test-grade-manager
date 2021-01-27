@@ -1,5 +1,6 @@
 package com.elcio.escolaAlf.entity;
 
+import com.elcio.escolaAlf.enums.Status;
 import com.elcio.escolaAlf.enums.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,18 +14,25 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="testinfo")
-public class TestInfo {
+@Table(name="final_grade")
+public class FinalGrade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long testInfoId;
+    private Long finalGradeId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Subject subject;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Student student;
+
+    @Column
+    private Double finalGrade;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String testNumber;
+    private Status status;
 
 }
