@@ -61,51 +61,6 @@ public class GradeService {
         // Deleting content of table "grade" before calculating and saving grades
         deleteGradeTable();
 
-//        for (int i = 0; i < studentIds.size(); i++) {
-//            for (int j = 0; j < testAnswers.size(); j++) {
-//                if(studentIds.get(i).equals(testStudentIds.get(j))){
-//                    for (int k = 0; k < answerkeyAnswers.size(); k++) {
-//                        if(testSubjects.get(j).equals(answerkeySubjects.get(k))
-//                                && testTestNumbers.get(j).equals(answerkeyTestNumbers.get(k))){
-//
-//                            List<String> singleTestQuestions = testAnswers.get(j).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-//                            List<String> singleTestAnswers = testAnswers.get(j).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
-//
-//                            List<String> singleAnswerkeyQuestions = answerkeyAnswers.get(k).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-//                            List<String> singleAnswerkeyAnswers = answerkeyAnswers.get(k).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
-//                            List<Integer> singleAnswerkeyWeight = answerkeyAnswers.get(k).stream().map(AnswerDTO::getWeight).collect(Collectors.toList());
-//
-//                            Double partialGrade = 0.;
-//                            Double grade = 0.;
-//                            Double totalWeight = 0.;
-//                            for (int m = 0; m < singleAnswerkeyQuestions.size(); m++) {
-//                                if(singleAnswerkeyAnswers.get(m) == singleTestAnswers.get(m)){
-//                                    partialGrade += singleAnswerkeyWeight.get(m);
-//                                }
-//                                totalWeight += singleAnswerkeyWeight.get(m);
-//                            }
-//
-//                            grade = partialGrade / totalWeight * 10;
-//                            GradeDTO gradeDTO = GradeDTO.builder()
-//                                    .testInfo(TestInfoDTO.builder()
-//                                            .testNumber(testTestNumbers.get(j))
-//                                            .subject(testSubjects.get(j))
-//                                            .build())
-//                                    .student(StudentDTO.builder()
-//                                            .studentId(studentIds.get(i))
-//                                            .name(names.get(i))
-//                                            .lastName(lastNames.get(i))
-//                                            .build())
-//                                    .grade(grade)
-//                                    .build();
-//
-//                            GradeDTO savedGradeDTO = saveGrade(gradeDTO);
-//                            listOfGrades.add(savedGradeDTO);
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         for (int i = 0; i < allStudents.size(); i++) {
             for (int j = 0; j < allAnswerkeys.size(); j++) {
@@ -115,10 +70,8 @@ public class GradeService {
                             && answerkeyTestNumbers.get(j).equals(testTestNumbers.get(k))
                             && studentIds.get(i).equals(testStudentIds.get(k))){
 
-//                        List<String> singleTestQuestions = testAnswers.get(k).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
                         List<String> singleTestAnswers = testAnswers.get(k).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
 
-//                        List<String> singleAnswerkeyQuestions = answerkeyAnswers.get(j).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
                         List<String> singleAnswerkeyAnswers = answerkeyAnswers.get(j).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
                         List<Integer> singleAnswerkeyWeight = answerkeyAnswers.get(j).stream().map(AnswerDTO::getWeight).collect(Collectors.toList());
 
@@ -152,62 +105,6 @@ public class GradeService {
 
         }
 
-
-//        for (int i = 0; i < allAnswerkeys.size(); i++) {
-//            for (int j = 0; j < allTestAnswers.size(); j++) {
-//                for (int k = 0; k < allStudents.size(); k++) {
-//                    Double grade = 0.;
-//                    int aux = 0;
-//                    if(answerkeySubjects.get(i).equals(testSubjects.get(j))
-//                            && answerkeyTestNumbers.get(i).equals(testTestNumbers.get(j))
-//                            && testStudentIds.get(j).equals(studentIds.get(k))){
-//
-//                        List<String> singleTestQuestions = testAnswers.get(j).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-//                        List<String> singleTestAnswers = testAnswers.get(j).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
-//
-//                        List<String> singleAnswerkeyQuestions = answerkeyAnswers.get(i).stream().map(AnswerDTO::getQuestion).collect(Collectors.toList());
-//                        List<String> singleAnswerkeyAnswers = answerkeyAnswers.get(i).stream().map(AnswerDTO::getAnswer).collect(Collectors.toList());
-//                        List<Integer> singleAnswerkeyWeight = answerkeyAnswers.get(i).stream().map(AnswerDTO::getWeight).collect(Collectors.toList());
-//
-//                        Double partialGrade = 0.;
-//                        Double totalWeight = 0.;
-//                        for (int m = 0; m < singleAnswerkeyQuestions.size(); m++) {
-//                            if(singleAnswerkeyAnswers.get(m) == singleTestAnswers.get(m)){
-//                                partialGrade += singleAnswerkeyWeight.get(m);
-//                            }
-//                            totalWeight += singleAnswerkeyWeight.get(m);
-//                        }
-//                        grade = partialGrade / totalWeight * 10;
-//                        aux++;
-//
-//                    } else if(answerkeySubjects.get(i).equals(testSubjects.get(j))
-//                            && answerkeyTestNumbers.get(i).equals(testTestNumbers.get(j))){
-//
-//                        grade = 0.;
-//                        aux++;
-//                    }
-//
-//                    if (aux !=0){
-//                        GradeDTO gradeDTO = GradeDTO.builder()
-//                                .testInfo(TestInfoDTO.builder()
-//                                        .testNumber(testTestNumbers.get(j))
-//                                        .subject(testSubjects.get(j))
-//                                        .build())
-//                                .student(StudentDTO.builder()
-//                                        .studentId(studentIds.get(k))
-//                                        .name(names.get(k))
-//                                        .lastName(lastNames.get(k))
-//                                        .build())
-//                                .grade(grade)
-//                                .build();
-//
-//                        GradeDTO savedGradeDTO = saveGrade(gradeDTO);
-//                        listOfGrades.add(savedGradeDTO);
-//                    }
-//                }
-//            }
-//        }
-
         return listOfGrades;
     }
 
@@ -222,4 +119,13 @@ public class GradeService {
         gradeRepository.deleteAll();
     }
 
+    public List<GradeDTO> listGradesBySubjectAndStudentId(String subject, String studentId) {
+        listStudentGrades();
+        List<GradeDTO> foundGrades = gradeRepository.findByTestInfo_SubjectAndStudent_StudentId(Subject.valueOf(subject.toUpperCase()), studentId)
+                .stream()
+                .map(gradeMapper::toDTO)
+                .collect(Collectors.toList());
+        return foundGrades;
+
+    }
 }

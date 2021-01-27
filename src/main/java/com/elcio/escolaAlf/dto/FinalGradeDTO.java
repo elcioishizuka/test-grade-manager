@@ -24,7 +24,7 @@ public class FinalGradeDTO {
     private Subject subject;
 
     @Valid
-    private Student student;
+    private StudentDTO student;
 
     private Double finalGrade;
 

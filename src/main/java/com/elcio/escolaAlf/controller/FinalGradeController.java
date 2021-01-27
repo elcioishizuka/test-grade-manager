@@ -1,8 +1,6 @@
 package com.elcio.escolaAlf.controller;
 
 import com.elcio.escolaAlf.dto.FinalGradeDTO;
-import com.elcio.escolaAlf.entity.FinalGrade;
-import com.elcio.escolaAlf.entity.Student;
 import com.elcio.escolaAlf.service.FinalGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +20,10 @@ public class FinalGradeController {
         this.finalGradeService = finalGradeService;
     }
 
-//    @GetMapping
-//    public FinalGradeDTO listApprovedStudents(){
-//        FinalGradeDTO approvedStudents = finalGradeService.listApprovedStudents();
-//        return approvedStudents;
-//    }
+    @GetMapping
+    public List<FinalGradeDTO> listApprovedStudents(){
+        List<FinalGradeDTO> listStudentsStatus = finalGradeService.listApprovedStudents();
+        return listStudentsStatus;
+    }
 
 }

@@ -30,13 +30,10 @@ public class GradeController {
         return allGrades;
     }
 
-
-//    @GetMapping("/list")
-//    public List<GradeDTO> list() {
-//        List<GradeDTO> allGrades = gradeService.listStudentGrades();
-//        return allGrades;
-//    }
-
-
+    @GetMapping("/{subject}/{studentId}")
+    public List<GradeDTO> listBySubjectAndStudentId (@PathVariable("subject") String subject, @PathVariable("studentId") String studentId){
+        List<GradeDTO> gradesBySubjectAndStudentId = gradeService.listGradesBySubjectAndStudentId(subject, studentId);
+        return gradesBySubjectAndStudentId;
+    }
 
 }
